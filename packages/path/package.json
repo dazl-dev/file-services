@@ -1,14 +1,14 @@
 {
   "name": "@file-services/path",
   "description": "Node's `path` implementation, ready for the web.",
-  "version": "10.0.1",
+  "version": "11.0.0",
   "type": "module",
   "main": "index.js",
   "browser": {
     "./index.js": "./browser-path.js"
   },
   "dependencies": {
-    "@file-services/types": "^10.0.1"
+    "@file-services/types": "^11.0.0"
   },
   "files": [
     "index.js",

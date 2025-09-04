@@ -1,7 +1,7 @@
 {
   "name": "@file-services/cached",
   "description": "A file system wrapper that adds cache to any `IFileSystem` implementation.",
-  "version": "10.0.1",
+  "version": "11.0.0",
   "type": "module",
   "exports": {
     ".": {
@@ -11,8 +11,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@file-services/types": "^10.0.1",
-    "@file-services/utils": "^10.0.1"
+    "@file-services/types": "^11.0.0",
+    "@file-services/utils": "^11.0.0"
   },
   "files": [
     "dist",
