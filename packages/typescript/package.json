@@ -1,7 +1,7 @@
 {
   "name": "@file-services/typescript",
   "description": "Helpers for creation of TypeScript hosts",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "type": "module",
   "exports": {
     ".": {
@@ -14,7 +14,7 @@
     "typescript": ">=2.8.0"
   },
   "dependencies": {
-    "@file-services/types": "^11.0.0"
+    "@file-services/types": "^11.0.1"
   },
   "files": [
     "dist",

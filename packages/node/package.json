@@ -1,7 +1,7 @@
 {
   "name": "@file-services/node",
   "description": "Node.js file system implementation.",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "type": "module",
   "exports": {
     ".": {
@@ -11,8 +11,8 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@file-services/types": "^11.0.0",
-    "@file-services/utils": "^11.0.0"
+    "@file-services/types": "^11.0.1",
+    "@file-services/utils": "^11.0.1"
   },
   "files": [
     "dist",
