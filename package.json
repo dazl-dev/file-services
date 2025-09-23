@@ -16,7 +16,7 @@
     "prettify": "prettier --write ."
   },
   "devDependencies": {
-    "@playwright/browser-chromium": "^1.55.0",
+    "@playwright/browser-chromium": "^1.55.1",
     "@ts-tools/esm": "^6.1.0",
     "@types/chai": "^5.2.2",
     "@types/chai-as-promised": "^8.0.2",
@@ -41,7 +41,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "rimraf": "^6.0.1",
-    "sass": "^1.93.0",
+    "sass": "^1.93.2",
     "sinon": "^21.0.0",
     "sinon-chai": "^4.0.1",
     "type-fest": "^5.0.1",
