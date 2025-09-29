@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@file-services/types": "^11.0.1",
-    "chai": "^6.0.1",
+    "chai": "^6.2.0",
     "promise-assist": "^2.0.1"
   },
   "files": [
