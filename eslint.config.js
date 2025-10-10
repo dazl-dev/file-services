@@ -3,11 +3,11 @@
 import pluginJs from "@eslint/js";
 import configPrettier from "eslint-config-prettier";
 import pluginNoOnlyTests from "eslint-plugin-no-only-tests";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 import pluginTypescript from "typescript-eslint";
 
 export default defineConfig([
-  { ignores: ["**/dist/", "packages/path/index.d.ts"] },
+  globalIgnores(["**/dist/", "packages/path/index.d.ts"]),
   pluginJs.configs.recommended,
   { plugins: { "no-only-tests": pluginNoOnlyTests } },
   {
@@ -18,7 +18,7 @@ export default defineConfig([
       "no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
-  ...pluginTypescript.configs.recommendedTypeChecked.map((config) => ({ ...config, files: ['**/*.{ts,tsx,mts,cts}'] })),
+  ...pluginTypescript.configs.recommendedTypeChecked.map((config) => ({ ...config, files: ["**/*.{ts,tsx,mts,cts}"] })),
   { languageOptions: { parserOptions: { projectService: true } } },
   {
     files: ["**/*.{ts,tsx,mts,cts}"],
