@@ -18,7 +18,7 @@
   "devDependencies": {
     "@playwright/browser-chromium": "^1.56.1",
     "@ts-tools/esm": "^6.1.0",
-    "@types/chai": "^5.2.2",
+    "@types/chai": "^5.2.3",
     "@types/chai-as-promised": "^8.0.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "20",
