@@ -24,7 +24,7 @@
     "@types/node": "20",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "@types/sinon": "^20.0.0",
+    "@types/sinon": "^21.0.0",
     "@types/sinon-chai": "^4.0.0",
     "chai": "^6.2.1",
     "chai-as-promised": "^8.0.2",
