@@ -25,6 +25,7 @@ export default defineConfig([
     rules: {
       "@typescript-eslint/require-await": "off",
       "@typescript-eslint/unbound-method": "off",
+      "@typescript-eslint/no-redundant-type-constituents": "off",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
