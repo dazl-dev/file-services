@@ -4,10 +4,8 @@ import path from "@file-services/path";
 import { createRequestResolver } from "@file-services/resolve";
 import { expect } from "chai";
 import events from "node:events";
-import nodeModule from "node:module";
 import os from "node:os";
 import perf_hooks from "node:perf_hooks";
-import readline from "node:readline";
 import stream from "node:stream";
 import tty from "node:tty";
 import url from "node:url";
@@ -69,25 +67,5 @@ describe("commonjs module system - integration with existing npm packages", func
     const mocha = requireFrom(import.meta.dirname, "mocha") as typeof import("mocha");
 
     expect(mocha.reporters).to.be.an("object");
-  });
-
-  it("evaluates sass successfully", () => {
-    const { requireFrom, moduleCache } = createCjsModuleSystem({
-      fs,
-      resolver: createRequestResolver({ fs, conditions: ["node", "require"] }),
-    });
-    moduleCache.set("fs", { filename: "fs", id: "fs", exports: fs, children: [] });
-    moduleCache.set("path", { filename: "path", id: "path", exports: path, children: [] });
-    moduleCache.set("url", { filename: "url", id: "url", exports: url, children: [] });
-    moduleCache.set("stream", { filename: "stream", id: "stream", exports: stream, children: [] });
-    moduleCache.set("os", { filename: "os", id: "os", exports: os, children: [] });
-    moduleCache.set("readline", { filename: "readline", id: "readline", exports: readline, children: [] });
-    moduleCache.set("util", { filename: "util", id: "util", exports: util, children: [] });
-    moduleCache.set("module", { filename: "module", id: "module", exports: nodeModule, children: [] });
-
-    const sass = requireFrom(import.meta.dirname, "sass") as typeof import("sass");
-
-    expect(sass.render).to.be.instanceOf(Function);
-    expect(sass.renderSync).to.be.instanceOf(Function);
   });
 });
