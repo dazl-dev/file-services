@@ -16,6 +16,7 @@
     "prettify": "prettier --write ."
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/browser-chromium": "^1.58.2",
     "@ts-tools/esm": "^6.1.0",
     "@types/chai": "^5.2.3",
@@ -30,7 +31,7 @@
     "chai-as-promised": "^8.0.2",
     "create-temp-directory": "^2.4.0",
     "esbuild": "^0.27.3",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "mocha": "^12.0.0-beta-9",
@@ -45,7 +46,7 @@
     "sinon-chai": "^4.0.1",
     "type-fest": "^5.4.4",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.55.0"
+    "typescript-eslint": "^8.56.0"
   },
   "engines": {
     "npm": ">=8"
