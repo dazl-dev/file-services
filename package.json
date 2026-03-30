@@ -46,15 +46,7 @@
     "sinon-chai": "^4.0.1",
     "type-fest": "^5.5.0",
     "typescript": "~6.0.2",
-    "typescript-eslint": "^8.57.2"
-  },
-  "overrides": {
-    "typescript-eslint": {
-      "typescript": "~6.0.2"
-    }
-  },
-  "engines": {
-    "npm": ">=8"
+    "typescript-eslint": "^8.58.0"
   },
   "license": "MIT",
   "private": true
