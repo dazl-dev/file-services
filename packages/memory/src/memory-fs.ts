@@ -266,6 +266,7 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
     if (!parentNode) {
       if (recursive) {
         mkdirSync(parentPath, options);
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         parentNode = getNode(parentPath) as IFsMemDirectoryNode;
       } else {
         throw createFsError(resolvedPath, FsErrorCodes.CONTAINING_NOT_EXISTS, "ENOENT");

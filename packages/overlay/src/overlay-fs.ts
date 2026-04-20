@@ -105,7 +105,7 @@ export function createOverlayFs(
         }
       }
       return lowerFs.statSync(resolvedLowerPath, ...args);
-    } as IBaseFileSystemSyncActions["statSync"],
+    },
     lstatSync: function lstatSync(path: string, ...args: []) {
       const { resolvedLowerPath, resolvedUpperPath } = resolvePaths(path);
       if (resolvedUpperPath !== undefined && upperFs.existsSync(resolvedUpperPath)) {
@@ -119,7 +119,7 @@ export function createOverlayFs(
         }
       }
       return lowerFs.lstatSync(resolvedLowerPath, ...args);
-    } as IBaseFileSystemSyncActions["lstatSync"],
+    },
     realpathSync,
     readlinkSync(path) {
       const { resolvedLowerPath, resolvedUpperPath } = resolvePaths(path);
