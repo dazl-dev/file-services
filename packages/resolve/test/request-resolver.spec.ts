@@ -287,8 +287,8 @@ describe("request resolver", () => {
     it("resolves requests to scoped packages", () => {
       const fs = createMemoryFs({
         node_modules: {
-          "@stylable": {
-            cli: {
+          "@scope": {
+            package: {
               "index.js": EMPTY,
               "test-utils.js": EMPTY,
             },
@@ -297,10 +297,10 @@ describe("request resolver", () => {
       });
       const resolveRequest = createRequestResolver({ fs });
 
-      expect(resolveRequest("/", "@stylable/cli")).to.be.resolvedTo("/node_modules/@stylable/cli/index.js");
+      expect(resolveRequest("/", "@scope/package")).to.be.resolvedTo("/node_modules/@scope/package/index.js");
 
-      expect(resolveRequest("/", "@stylable/cli/test-utils")).to.be.resolvedTo(
-        "/node_modules/@stylable/cli/test-utils.js",
+      expect(resolveRequest("/", "@scope/package/test-utils")).to.be.resolvedTo(
+        "/node_modules/@scope/package/test-utils.js",
       );
     });
 
