@@ -464,8 +464,8 @@ declare let Error: TracedErrorConstructor;
  * @param specifier - The package specifier to parse.
  * @example parsePackageSpecifier('react-dom') === ['react-dom', "."]
  * @example parsePackageSpecifier('react-dom/client') === ['react-dom', './client']
- * @example parsePackageSpecifier('@stylable/core') === ['@stylable/core', "./core"]
- * @example parsePackageSpecifier('@stylable/core/dist/some-file') === ['@stylable/core', './dist/some-file']
+ * @example parsePackageSpecifier('@scope/package') === ['@scope/package', "."]
+ * @example parsePackageSpecifier('@scope/package/dist/some-file') === ['@scope/package', './dist/some-file']
  */
 function parsePackageSpecifier(specifier: string): readonly [packageName: string, pathInPackage: string] {
   const firstSlashIdx = specifier.indexOf("/");
