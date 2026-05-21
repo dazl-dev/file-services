@@ -178,7 +178,11 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
       if (existingNode.type === "dir") {
         throw createFsError(resolvedPath, FsErrorCodes.PATH_IS_DIRECTORY, "EISDIR");
       }
-      existingNode.entry = { ...existingNode.entry, mtime: new Date() };
+      existingNode.entry = {
+        ...existingNode.entry,
+        mtime: new Date(),
+        size: typeof fileContent === "string" ? textEncoder.encode(fileContent).byteLength : fileContent.byteLength,
+      };
       existingNode.contents = typeof fileContent === "string" ? fileContent : new Uint8Array(fileContent);
       emitChangeEvent("change", resolvedPath);
     } else {
@@ -198,6 +202,7 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
           birthtime: currentDate,
           mtime: currentDate,
           ctime: currentDate,
+          size: typeof fileContent === "string" ? textEncoder.encode(fileContent).byteLength : fileContent.byteLength,
           isFile: returnsTrue,
           isDirectory: returnsFalse,
           isSymbolicLink: returnsFalse,
@@ -543,6 +548,7 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
         birthtime: currentDate,
         mtime: currentDate,
         ctime: currentDate,
+        size: textEncoder.encode(target).byteLength,
         isFile: returnsFalse,
         isDirectory: returnsFalse,
         isSymbolicLink: returnsTrue,
@@ -626,6 +632,7 @@ function createMemDirectory(name: string): IFsMemDirectoryNode {
       birthtime: currentDate,
       mtime: currentDate,
       ctime: currentDate,
+      size: 0,
       isFile: returnsFalse,
       isDirectory: returnsTrue,
       isSymbolicLink: returnsFalse,

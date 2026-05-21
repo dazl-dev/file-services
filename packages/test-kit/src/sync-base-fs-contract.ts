@@ -83,6 +83,25 @@ export function syncBaseFsContract(
       });
     });
 
+    it("stat size reflects the byte size of written content", () => {
+      const { fs, tempDirectoryPath } = testInput;
+      const filePath = fs.join(tempDirectoryPath, "file");
+      const binaryContent = new Uint8Array([1, 2, 3, 4, 5]);
+      const encoder = new TextEncoder();
+
+      fs.writeFileSync(filePath, SAMPLE_CONTENT);
+      expect(fs.statSync(filePath).size, "string content").to.equal(encoder.encode(SAMPLE_CONTENT).byteLength);
+
+      fs.writeFileSync(filePath, DIFFERENT_CONTENT);
+      expect(fs.statSync(filePath).size, "overwritten content").to.equal(encoder.encode(DIFFERENT_CONTENT).byteLength);
+
+      fs.writeFileSync(filePath, binaryContent);
+      expect(fs.statSync(filePath).size, "binary content").to.equal(binaryContent.byteLength);
+
+      // directory size is implementation-defined; only assert it is a number
+      expect(fs.statSync(tempDirectoryPath).size, "directory").to.be.a("number");
+    });
+
     describe("reading files", () => {
       it("can read the contents of a file", () => {
         const { fs, tempDirectoryPath } = testInput;
