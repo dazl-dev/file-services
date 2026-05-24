@@ -178,8 +178,14 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
       if (existingNode.type === "dir") {
         throw createFsError(resolvedPath, FsErrorCodes.PATH_IS_DIRECTORY, "EISDIR");
       }
-      existingNode.entry = { ...existingNode.entry, mtime: new Date() };
-      existingNode.contents = typeof fileContent === "string" ? fileContent : new Uint8Array(fileContent);
+      const encodedContent =
+        typeof fileContent === "string" ? textEncoder.encode(fileContent) : new Uint8Array(fileContent);
+      existingNode.entry = {
+        ...existingNode.entry,
+        mtime: new Date(),
+        size: encodedContent.byteLength,
+      };
+      existingNode.contents = encodedContent;
       emitChangeEvent("change", resolvedPath);
     } else {
       const parentPath = posixPath.dirname(resolvedPath);
@@ -191,6 +197,8 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
 
       const fileName = posixPath.basename(resolvedPath);
       const currentDate = new Date();
+      const encodedContent =
+        typeof fileContent === "string" ? textEncoder.encode(fileContent) : new Uint8Array(fileContent);
       const newFileNode: IFsMemFileNode = {
         type: "file",
         entry: {
@@ -198,11 +206,12 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
           birthtime: currentDate,
           mtime: currentDate,
           ctime: currentDate,
+          size: encodedContent.byteLength,
           isFile: returnsTrue,
           isDirectory: returnsFalse,
           isSymbolicLink: returnsFalse,
         },
-        contents: typeof fileContent === "string" ? fileContent : new Uint8Array(fileContent),
+        contents: encodedContent,
       };
       parentNode.contents.set(fileName, newFileNode);
       emitChangeEvent("rename", resolvedPath);
@@ -543,6 +552,7 @@ export function createBaseMemoryFsSync(): IBaseMemFileSystemSync {
         birthtime: currentDate,
         mtime: currentDate,
         ctime: currentDate,
+        size: textEncoder.encode(target).byteLength,
         isFile: returnsFalse,
         isDirectory: returnsFalse,
         isSymbolicLink: returnsTrue,
@@ -626,6 +636,7 @@ function createMemDirectory(name: string): IFsMemDirectoryNode {
       birthtime: currentDate,
       mtime: currentDate,
       ctime: currentDate,
+      size: 0,
       isFile: returnsFalse,
       isDirectory: returnsTrue,
       isSymbolicLink: returnsFalse,

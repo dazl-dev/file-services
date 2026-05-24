@@ -111,6 +111,33 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
     });
 
+    it("stat size reflects the byte size of written content", async () => {
+      const {
+        tempDirectoryPath,
+        fs: {
+          join,
+          promises: { stat, writeFile },
+        },
+      } = testInput;
+      const filePath = join(tempDirectoryPath, "file");
+      const SAMPLE_CONTENT = "🚀";
+      const DIFFERENT_CONTENT = "🚀🚀";
+      const binaryContent = new Uint8Array([1, 2, 3, 4, 5]);
+      const encoder = new TextEncoder();
+
+      await writeFile(filePath, SAMPLE_CONTENT);
+      expect((await stat(filePath)).size, "string content").to.equal(encoder.encode(SAMPLE_CONTENT).byteLength);
+
+      await writeFile(filePath, DIFFERENT_CONTENT);
+      expect((await stat(filePath)).size, "overwritten content").to.equal(encoder.encode(DIFFERENT_CONTENT).byteLength);
+
+      await writeFile(filePath, binaryContent);
+      expect((await stat(filePath)).size, "binary content").to.equal(binaryContent.byteLength);
+
+      // directory size is implementation-defined
+      expect((await stat(tempDirectoryPath)).size, "directory").to.be.a("number");
+    });
+
     describe("reading files", () => {
       it("can read the contents of a file", async () => {
         const {

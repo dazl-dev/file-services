@@ -33,6 +33,26 @@ describe("In-memory File System Implementation", () => {
     });
   });
 
+  describe("stat size", () => {
+    it("reports correct byte sizes for files, directories, and symlinks", () => {
+      const encoder = new TextEncoder();
+
+      const content = "🚀🚀🚀"; // 3 chars, 12 UTF-8 bytes
+      const fileFs = createMemoryFs({ "/file": content });
+      expect(fileFs.statSync("/file").size, "multi-byte UTF-8 string").to.equal(12);
+
+      const dirFs = createMemoryFs({ "/dir": {} });
+      expect(dirFs.statSync("/dir").size, "directory").to.equal(0);
+
+      const targetPath = "/some/target/path";
+      const symlinkFs = createMemoryFs();
+      symlinkFs.symlinkSync(targetPath, "/link");
+      expect(symlinkFs.lstatSync("/link").size, "symlink target byte length").to.equal(
+        encoder.encode(targetPath).byteLength,
+      );
+    });
+  });
+
   describe("creating directories", () => {
     it("fails creating the root", async () => {
       const fs = createMemoryFs();

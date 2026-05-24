@@ -94,6 +94,13 @@ export interface IFileSystemStats {
   mtime: Date;
 
   /**
+   * Size in bytes. For files, this is the file content size.
+   * For symbolic links, this is the byte length of the target path.
+   * For directories, this is implementation-defined.
+   */
+  size: number;
+
+  /**
    * is the path pointing to a file
    */
   isFile(): boolean;
