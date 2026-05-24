@@ -30,7 +30,7 @@ export type IFsMemNodeType = IFsMemFileNode | IFsMemDirectoryNode | IFsMemSymlin
 
 export interface IFsMemFileNode extends IFsMemNode {
   type: "file";
-  contents: string | Uint8Array;
+  contents: Uint8Array;
 }
 
 export interface IFsMemDirectoryNode extends IFsMemNode {
