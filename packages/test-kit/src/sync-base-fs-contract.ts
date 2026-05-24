@@ -86,6 +86,8 @@ export function syncBaseFsContract(
     it("stat size reflects the byte size of written content", () => {
       const { fs, tempDirectoryPath } = testInput;
       const filePath = fs.join(tempDirectoryPath, "file");
+      const SAMPLE_CONTENT = "🚀";
+      const DIFFERENT_CONTENT = "🚀🚀";
       const binaryContent = new Uint8Array([1, 2, 3, 4, 5]);
       const encoder = new TextEncoder();
 
