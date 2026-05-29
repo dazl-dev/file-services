@@ -1,5 +1,5 @@
 import EventEmitter, { once } from "node:events";
-import { lstatSync, readdirSync, watch, type FSWatcher, type Stats, type WatchOptions } from "node:fs";
+import { lstatSync, readdirSync, watch, type FSWatcher, type Stats, type WatchOptionsWithStringEncoding } from "node:fs";
 import path from "node:path";
 
 export interface WatcherEvents {
@@ -12,9 +12,9 @@ export class RecursiveFSWatcher extends EventEmitter<WatcherEvents> {
   #directoryPathToWatcher = new Map<string, FSWatcher>();
 
   private rootDirectoryPath: string;
-  private options: WatchOptions;
+  private options: WatchOptionsWithStringEncoding;
 
-  constructor(rootDirectoryPath: string, options?: WatchOptions) {
+  constructor(rootDirectoryPath: string, options?: WatchOptionsWithStringEncoding) {
     super();
     if (!options?.recursive) {
       throw new Error("RecursiveFSWatcher requires recursive option to be set");
