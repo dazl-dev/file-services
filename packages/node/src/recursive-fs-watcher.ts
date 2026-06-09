@@ -1,5 +1,12 @@
 import EventEmitter, { once } from "node:events";
-import { lstatSync, readdirSync, watch, type FSWatcher, type Stats, type WatchOptionsWithStringEncoding } from "node:fs";
+import {
+  lstatSync,
+  readdirSync,
+  watch,
+  type FSWatcher,
+  type Stats,
+  type WatchOptionsWithStringEncoding,
+} from "node:fs";
 import path from "node:path";
 
 export interface WatcherEvents {
