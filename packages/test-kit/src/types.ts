@@ -15,5 +15,5 @@ export interface ITestInput<T> {
   /**
    * Post-test cleanup
    */
-  dispose(): Promise<void>;
+  [Symbol.dispose](): void;
 }

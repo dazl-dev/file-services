@@ -9,15 +9,11 @@ chai.use(chaiAsPromised);
 const SAMPLE_CONTENT = "content";
 const DIFFERENT_CONTENT = "another content";
 
-export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBaseFileSystemAsync>>): void {
+export function asyncBaseFsContract(testProvider: () => ITestInput<IBaseFileSystemAsync>): void {
   describe("ASYNC file system contract", () => {
-    let testInput: ITestInput<IBaseFileSystemAsync>;
-
-    beforeEach(async () => (testInput = await testProvider()));
-    afterEach(async () => await testInput.dispose());
-
     describe("writing files", () => {
       it("can write a new file into an existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -34,6 +30,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("can write a binary file", async () => {
+        using testInput = testProvider();
         const {
           fs: {
             join,
@@ -56,6 +53,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("can overwrite an existing file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -73,6 +71,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if writing a file to a non-existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -86,6 +85,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if writing a file to a path already pointing to a directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -101,6 +101,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if writing to a file without a name", async () => {
+        using testInput = testProvider();
         const {
           fs: {
             promises: { writeFile },
@@ -112,6 +113,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
     });
 
     it("stat size reflects the byte size of written content", async () => {
+      using testInput = testProvider();
       const {
         tempDirectoryPath,
         fs: {
@@ -140,6 +142,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("reading files", () => {
       it("can read the contents of a file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -158,6 +161,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if reading a non-existing file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -171,6 +175,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if reading a directory as a file", async () => {
+        using testInput = testProvider();
         const {
           fs: {
             promises: { readFile },
@@ -184,6 +189,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("removing files", () => {
       it("can remove files", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -200,6 +206,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if trying to remove a non-existing file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -213,6 +220,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if trying to remove a directory as a file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -230,6 +238,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("creating directories", () => {
       it("can create an empty directory inside an existing one", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -246,6 +255,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if creating in a path pointing to an existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -261,6 +271,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if creating in a path pointing to an existing file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -276,6 +287,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if creating a directory inside a non-existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -289,6 +301,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if creating a directory inside of a file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -306,6 +319,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
       describe("recursively", () => {
         it("can create an empty directory inside an existing one", async () => {
+          using testInput = testProvider();
           const { fs, tempDirectoryPath } = testInput;
           const directoryPath = fs.join(tempDirectoryPath, "new-dir");
 
@@ -316,6 +330,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
         });
 
         it("creates parent directory chain when possible", async () => {
+          using testInput = testProvider();
           const { fs, tempDirectoryPath } = testInput;
           const directoryPath = fs.join(tempDirectoryPath, "missing", "also-missing", "new-dir");
 
@@ -326,6 +341,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
         });
 
         it("succeeds if creating in a path pointing to an existing directory", async () => {
+          using testInput = testProvider();
           const { fs, tempDirectoryPath } = testInput;
           const directoryPath = fs.join(tempDirectoryPath, "dir");
           await fs.promises.mkdir(directoryPath);
@@ -334,6 +350,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
         });
 
         it("fails if creating in a path pointing to an existing file", async () => {
+          using testInput = testProvider();
           const { fs, tempDirectoryPath } = testInput;
           const filePath = fs.join(tempDirectoryPath, "file");
           await fs.promises.writeFile(filePath, SAMPLE_CONTENT);
@@ -342,6 +359,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
         });
 
         it("fails if creating a directory inside of a file", async () => {
+          using testInput = testProvider();
           const { fs, tempDirectoryPath } = testInput;
           const filePath = fs.join(tempDirectoryPath, "file");
           await fs.promises.writeFile(filePath, SAMPLE_CONTENT);
@@ -355,6 +373,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("listing directories", () => {
       it("can list an existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -376,6 +395,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("lists directory entries", async () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         await fs.promises.mkdir(fs.join(tempDirectoryPath, "dir"));
@@ -396,6 +416,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if listing a non-existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -409,6 +430,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if listing a path pointing to a file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -426,6 +448,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("removing directories", () => {
       it("can remove an existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -442,6 +465,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if removing a non-empty directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -458,6 +482,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if removing a non-existing directory", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -471,6 +496,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if removing a path pointing to a file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -488,6 +514,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("renaming directories and files", () => {
       it("moves a file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -514,6 +541,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it(`throws if source path doesn't exist`, async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -528,6 +556,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it(`throws if the containing directory of the source path doesn't exist`, async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -542,6 +571,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it(`throws if destination containing path doesn't exist`, async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -558,6 +588,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("updates the parent directory of a renamed entry", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
@@ -578,6 +609,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
       describe("renaming directories", () => {
         it("allows renaming a complex directory structure to another destination", async () => {
+          using testInput = testProvider();
           const {
             tempDirectoryPath,
             fs: {
@@ -600,6 +632,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
         });
 
         it(`allows renaming a directory over a non-existing directory`, async () => {
+          using testInput = testProvider();
           const {
             tempDirectoryPath,
             fs: {
@@ -616,6 +649,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
         });
 
         it(`allows renaming a directory over an empty directory`, async () => {
+          using testInput = testProvider();
           const {
             tempDirectoryPath,
             fs: {
@@ -636,6 +670,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
     });
 
     it("correctly exposes whether it is case sensitive", async () => {
+      using testInput = testProvider();
       const {
         tempDirectoryPath,
         fs: {
@@ -658,31 +693,22 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("copying files/directories", () => {
       const SOURCE_FILE_NAME = "file.txt";
-      let targetDirectoryPath: string;
-      let sourceFilePath: string;
 
-      beforeEach(async () => {
+      it("can copy file", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
             join,
-            promises: { writeFile, mkdir },
+            promises: { writeFile, mkdir, copyFile, readFile },
           },
         } = testInput;
-        targetDirectoryPath = join(tempDirectoryPath, "dir");
+        const targetDirectoryPath = join(tempDirectoryPath, "dir");
 
         await mkdir(targetDirectoryPath);
-        sourceFilePath = join(tempDirectoryPath, SOURCE_FILE_NAME);
+        const sourceFilePath = join(tempDirectoryPath, SOURCE_FILE_NAME);
         await writeFile(sourceFilePath, SAMPLE_CONTENT);
-      });
 
-      it("can copy file", async () => {
-        const {
-          fs: {
-            join,
-            promises: { copyFile, readFile },
-          },
-        } = testInput;
         const targetPath = join(targetDirectoryPath, SOURCE_FILE_NAME);
 
         await copyFile(sourceFilePath, targetPath);
@@ -691,13 +717,20 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if source does not exist", async () => {
+        using testInput = testProvider();
         const {
           tempDirectoryPath,
           fs: {
             join,
-            promises: { copyFile },
+            promises: { writeFile, mkdir, copyFile },
           },
         } = testInput;
+        const targetDirectoryPath = join(tempDirectoryPath, "dir");
+
+        await mkdir(targetDirectoryPath);
+        const sourceFilePath = join(tempDirectoryPath, SOURCE_FILE_NAME);
+        await writeFile(sourceFilePath, SAMPLE_CONTENT);
+
         const sourcePath = join(tempDirectoryPath, "nonExistingFileName.txt");
         const targetPath = join(targetDirectoryPath, SOURCE_FILE_NAME);
 
@@ -705,24 +738,40 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if target containing directory does not exist", async () => {
+        using testInput = testProvider();
         const {
+          tempDirectoryPath,
           fs: {
             join,
-            promises: { copyFile },
+            promises: { writeFile, mkdir, copyFile },
           },
         } = testInput;
+        const targetDirectoryPath = join(tempDirectoryPath, "dir");
+
+        await mkdir(targetDirectoryPath);
+        const sourceFilePath = join(tempDirectoryPath, SOURCE_FILE_NAME);
+        await writeFile(sourceFilePath, SAMPLE_CONTENT);
+
         const targetPath = join(targetDirectoryPath, "nonExistingDirectory", SOURCE_FILE_NAME);
 
         await expect(copyFile(sourceFilePath, targetPath)).to.be.rejectedWith("ENOENT");
       });
 
       it("overwrites destination file by default", async () => {
+        using testInput = testProvider();
         const {
+          tempDirectoryPath,
           fs: {
             join,
-            promises: { copyFile, readFile, writeFile },
+            promises: { writeFile, mkdir, copyFile, readFile },
           },
         } = testInput;
+        const targetDirectoryPath = join(tempDirectoryPath, "dir");
+
+        await mkdir(targetDirectoryPath);
+        const sourceFilePath = join(tempDirectoryPath, SOURCE_FILE_NAME);
+        await writeFile(sourceFilePath, SAMPLE_CONTENT);
+
         const targetPath = join(targetDirectoryPath, SOURCE_FILE_NAME);
 
         await writeFile(targetPath, "content to be overwritten");
@@ -732,12 +781,20 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("fails if destination exists and flag COPYFILE_EXCL passed", async () => {
+        using testInput = testProvider();
         const {
+          tempDirectoryPath,
           fs: {
             join,
-            promises: { copyFile, writeFile },
+            promises: { writeFile, mkdir, copyFile },
           },
         } = testInput;
+        const targetDirectoryPath = join(tempDirectoryPath, "dir");
+
+        await mkdir(targetDirectoryPath);
+        const sourceFilePath = join(tempDirectoryPath, SOURCE_FILE_NAME);
+        await writeFile(sourceFilePath, SAMPLE_CONTENT);
+
         const targetPath = join(targetDirectoryPath, SOURCE_FILE_NAME);
 
         await writeFile(targetPath, "content to be overwritten");
@@ -750,6 +807,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
 
     describe("removing directories and files", () => {
       it("removes an existing file, no matter the flags", async () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file");
@@ -773,6 +831,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it('removes an empty or populated directory when "recursive" is set', async () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const emptyDirectoryPath = fs.join(tempDirectoryPath, "dir");
@@ -789,6 +848,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it('fails removing a directory when "recursive" is not set', async () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const emptyDirectoryPath = fs.join(tempDirectoryPath, "dir");
@@ -805,6 +865,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it("throws removing a non-existing target", async () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const targetPath = fs.join(tempDirectoryPath, "target");
@@ -814,6 +875,7 @@ export function asyncBaseFsContract(testProvider: () => Promise<ITestInput<IBase
       });
 
       it('does not fail removing a non-existing target if "force" is set', async () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const targetPath = fs.join(tempDirectoryPath, "target");

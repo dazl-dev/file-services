@@ -1,7 +1,7 @@
 import { createNodeFs } from "@file-services/node";
 import { asyncBaseFsContract, asyncFsContract, syncBaseFsContract, syncFsContract } from "@file-services/test-kit";
 import { expect } from "chai";
-import { createTempDirectory } from "create-temp-directory";
+import { createTempDirectorySync } from "create-temp-directory";
 import { platform } from "node:os";
 import { fileURLToPath } from "node:url";
 
@@ -10,15 +10,13 @@ describe("Node File System Implementation", function () {
 
   const fs = createNodeFs();
 
-  const testProvider = async () => {
-    const tempDirectory = await createTempDirectory("fs-test-");
+  const testProvider = () => {
+    const tempDirectory = createTempDirectorySync("fs-test-");
 
     return {
       fs,
-      dispose: async () => {
-        await tempDirectory.remove();
-      },
-      tempDirectoryPath: fs.realpathSync(tempDirectory.path),
+      tempDirectoryPath: tempDirectory.path,
+      [Symbol.dispose]: tempDirectory.remove,
     };
   };
 

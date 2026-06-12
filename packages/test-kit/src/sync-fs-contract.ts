@@ -4,15 +4,11 @@ import type { ITestInput } from "./types.js";
 
 const SAMPLE_CONTENT = "content";
 
-export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSystemSync>>): void {
+export function syncFsContract(testProvider: () => ITestInput<IFileSystemSync>): void {
   describe("SYNC file system contract", () => {
-    let testInput: ITestInput<IFileSystemSync>;
-
-    beforeEach(async () => (testInput = await testProvider()));
-    afterEach(async () => await testInput.dispose());
-
     describe("fileExistsSync", () => {
       it("returns true if path points to a file", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file");
@@ -23,6 +19,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if path does not exist", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "non-existing-file");
@@ -31,6 +28,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if path points to a directory", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const directoryPath = fs.join(tempDirectoryPath, "dir");
@@ -41,6 +39,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if parent path points to a file", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file");
@@ -51,6 +50,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false even if parent path does not exist", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "missing-parent", "non-existing-file");
@@ -61,6 +61,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("directoryExistsSync", () => {
       it("returns true if path points to a directory", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const directoryPath = fs.join(tempDirectoryPath, "dir");
@@ -71,6 +72,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if path does not exist", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "non-existing-directory");
@@ -79,6 +81,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if path points to a file", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file");
@@ -89,6 +92,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if parent path points to a file", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file");
@@ -99,6 +103,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("returns false if parent path does not exist", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "missing-parent", "non-existing-directory");
@@ -109,6 +114,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("readJsonFileSync", () => {
       it("parses contents of a json file and returns it", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file.json");
@@ -120,6 +126,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("throws on file reading errors", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file.json");
@@ -128,6 +135,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("throws on JSON parse errors", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
 
         const filePath = fs.join(tempDirectoryPath, "file.json");
@@ -143,6 +151,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("findFilesSync", () => {
       it("finds all files recursively inside a directory", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "dir");
 
@@ -168,6 +177,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("allows specifying a file filtering callback", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "dir");
 
@@ -192,6 +202,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("allows specifying a directory filtering callback", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "dir");
 
@@ -219,6 +230,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("findClosestFileSync", () => {
       it("finds closest file in parent directory chain", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "dir");
 
@@ -248,6 +260,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("findFilesInAncestorsSync", () => {
       it("finds files in parent directory chain", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "dir");
 
@@ -274,6 +287,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("copyDirectorySync", () => {
       it("copies a directory and its children", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const sourcePath = fs.join(tempDirectoryPath, "src");
         const destinationPath = fs.join(tempDirectoryPath, "dist");
@@ -306,6 +320,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
 
     describe("ensureDirectorySync", () => {
       it(`creates intermediate directories`, () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "animals", "mammals", "chiroptera");
 
@@ -315,6 +330,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it(`succeeds if directory already exists`, () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "some-directory");
         fs.mkdirSync(directoryPath);
@@ -323,6 +339,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it(`throws when target points to an existing file`, () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const filePath = fs.join(tempDirectoryPath, "bat.txt");
         fs.writeFileSync(filePath, "🦇");
@@ -331,6 +348,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it(`throws when attempting to create a directory inside of a file`, () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const filePath = fs.join(tempDirectoryPath, "bat.txt");
         fs.writeFileSync(filePath, "🦇");
@@ -340,6 +358,7 @@ export function syncFsContract(testProvider: () => Promise<ITestInput<IFileSyste
       });
 
       it("handles special paths gracefully", () => {
+        using testInput = testProvider();
         const { fs, tempDirectoryPath } = testInput;
         const directoryPath = fs.join(tempDirectoryPath, "some-directory");
         fs.mkdirSync(directoryPath);

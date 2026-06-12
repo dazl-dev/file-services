@@ -4,11 +4,11 @@ import { syncBaseFsContract, asyncBaseFsContract, syncFsContract, asyncFsContrac
 import { createMemoryFs } from "@file-services/memory";
 
 describe("In-memory File System Implementation", () => {
-  const testProvider = async () => {
+  const testProvider = () => {
     return {
       fs: createMemoryFs(),
-      dispose: async () => undefined,
       tempDirectoryPath: "/",
+      [Symbol.dispose]() {},
     };
   };
 
