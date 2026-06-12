@@ -8,11 +8,11 @@ const sampleContent2 = `222`;
 const sampleContent3 = `333`;
 
 describe("overlay fs", () => {
-  const testProvider = async () => {
+  const testProvider = () => {
     return {
       fs: createOverlayFs(createMemoryFs(), createMemoryFs()),
-      dispose: async () => undefined,
       tempDirectoryPath: "/",
+      [Symbol.dispose]() {},
     };
   };
 

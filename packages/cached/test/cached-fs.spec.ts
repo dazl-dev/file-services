@@ -231,12 +231,12 @@ describe("createCachedFs", () => {
     expect(statSyncSpy.callCount).to.equal(2);
   });
 
-  const testProvider = async () => {
+  const testProvider = () => {
     const fs = createCachedFs(createMemoryFs());
     return {
       fs,
-      dispose: async () => undefined,
       tempDirectoryPath: fs.cwd(),
+      [Symbol.dispose]() {},
     };
   };
 
