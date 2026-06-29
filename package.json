@@ -48,6 +48,10 @@
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.62.0"
   },
+  "allowScripts": {
+    "@playwright/browser-chromium": true,
+    "esbuild": true
+  },
   "license": "MIT",
   "private": true
 }
