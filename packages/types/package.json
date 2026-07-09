@@ -1,7 +1,7 @@
 {
   "name": "@file-services/types",
   "description": "Common file system interfaces",
-  "version": "11.1.0",
+  "version": "11.1.1",
   "type": "module",
   "exports": {
     ".": {
