@@ -11,7 +11,7 @@
     "./package.json": "./package.json"
   },
   "peerDependencies": {
-    "typescript": ">=2.8.0"
+    "typescript": "^4.0.0 || ^5.0.0 || ^6.0.0"
   },
   "dependencies": {
     "@file-services/types": "^11.1.0"
