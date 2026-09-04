@@ -46,7 +46,7 @@
     "sinon-chai": "^4.0.1",
     "type-fest": "^5.8.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.65.0"
+    "typescript-eslint": "^8.69.0"
   },
   "allowScripts": {
     "@playwright/browser-chromium": true,
